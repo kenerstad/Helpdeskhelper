@@ -45,25 +45,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	    protected void configure(HttpSecurity http) throws Exception {
 	 
 	        http.csrf().disable();
-	 
-	        // Pages not requiring login	        
+	         
 	        http.authorizeRequests()
 	        	.antMatchers("/", "/index", "/login", "/logout")
 	        	.permitAll();
-	 
-	        // /userInfo page requires login as ROLE_USER or ROLE_ADMIN.
-	        // If no login, it will redirect to /login page.
+	 	       
 	        http.authorizeRequests()
 	        	.antMatchers("/userInfo")
 	        	.access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
 	 
-	        // For ADMIN only.
 	        http.authorizeRequests()
 	        	.antMatchers("/admin")
 	        	.access("hasRole('ROLE_ADMIN')");
 	 
-	        // When the user has logged in as XX.
-	        // But accesses a page that requires role YY,
 	        http.authorizeRequests()
 	        	.and()
 	        	.exceptionHandling()
@@ -71,16 +65,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	 
 	        http.authorizeRequests()
 	        	.and()
-	        	.formLogin()// Config for Login Form
-                // Submit URL of login page.
-                .loginProcessingUrl("/security_check") // Submit URL
+	        	.formLogin()
+                .loginProcessingUrl("/security_check") 
                 .loginPage("/login")//
-                .defaultSuccessUrl("/account")//
-                .failureUrl("/login?error=true")//
-                .usernameParameter("username")//
-                .passwordParameter("password")
-                
-                // Config for Logout Page
+                .defaultSuccessUrl("/account")
+                .failureUrl("/login?error=true")
+                .usernameParameter("username")
+                .passwordParameter("password")              
                 .and()
                 .logout()
                 .logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
