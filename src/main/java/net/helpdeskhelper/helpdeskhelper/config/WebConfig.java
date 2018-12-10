@@ -21,8 +21,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig  implements WebMvcConfigurer {
 	
-	@Autowired
-	UserFormValidator userFormValidator;
 
 	  @Bean
 	    public MessageSource messageSource() {
@@ -32,18 +30,5 @@ public class WebConfig  implements WebMvcConfigurer {
 	        messageSource.setDefaultEncoding("UTF-8");
 	        return messageSource;
 	    }
-	  
-	  @InitBinder
-	   protected void initBinder(WebDataBinder dataBinder) {
-
-	      Object target = dataBinder.getTarget();
-	      if (target == null) 
-	         return;
-	      
-	      System.out.println("Target=" + target);
-	 
-	      if (target.getClass() == UserFormDTO.class) 
-	         dataBinder.setValidator(userFormValidator);	      
-	   }
-
+	    
 }
