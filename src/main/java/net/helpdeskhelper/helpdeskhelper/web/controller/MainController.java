@@ -8,8 +8,8 @@ import java.util.List;
 import net.helpdeskhelper.helpdeskhelper.utils.WebUtils;
 import net.helpdeskhelper.helpdeskhelper.web.dto.UserFormDTO;
 import net.helpdeskhelper.helpdeskhelper.validator.UserFormValidator;
+import net.helpdeskhelper.helpdeskhelper.service.IUserService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 //## Spring
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -17,12 +17,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Controller
@@ -30,6 +35,9 @@ public class MainController {
 	
 	@Autowired
 	UserFormValidator userFormValidator;
+	
+	@Autowired
+	IUserService userService;
 
 	@Value("${app.title}")
 	private String appTitle;
@@ -61,6 +69,26 @@ public class MainController {
 		return "welcome";
 	}
 	
+	@GetMapping("/register")
+	public String showRegistrationPage(Model model) {
+		
+		UserFormDTO userForm = new UserFormDTO();
+		model.addAttribute("userForm", userForm);
+		return "register";
+	}
+	
+	@PostMapping("/register")
+	public String saveRegistration(Model model, 
+			@ModelAttribute("userForm") 
+			@Validated UserFormDTO userForm, 
+			BindingResult result) {
+		
+		 if (result.hasErrors()) 
+	         return "/register";
+	      
+		 userService.registerUser(userForm);		 
+		 return "registerSuccess";
+	}
 	
 	
 	//## SECURITY ##
