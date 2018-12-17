@@ -35,7 +35,7 @@ public class UserFormValidator implements Validator{
 		 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "NotEmpty.UserFormDTO.firstName");
 		 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "NotEmpty.UserFormDTO.lastName");
 		 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty.UserFormDTO.password");
-		 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmpassword", "NotEmpty.UserFormDTO.confirmPassword");
+		 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.UserFormDTO.confirmPassword");
 		 
 		 //## Email Validation
 		 if(!this.emailValidator.isValid(userForm.getEmail())) 
@@ -45,7 +45,7 @@ public class UserFormValidator implements Validator{
 			 errors.rejectValue("email", "Duplicate.UserFormDTO.email");
 		 
 		 //## Username Validation
-		 if(!errors.hasFieldErrors("userName") && userRepo.findByUser_Name(userForm.getUserName()) != null)
+		 if(!errors.hasFieldErrors("userName") && userRepo.findByUserName(userForm.getUserName()) != null)
 			 errors.rejectValue("userName", "Duplicate.UserFormDTO.userName");
 		 
 		 //## Passwords match?
