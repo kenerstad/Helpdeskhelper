@@ -1,0 +1,15 @@
+.forminput {
+	padding-top: 50px;
+	display: block;
+}
+
+.label_input {
+	width: 200px;
+	text-align: left;	
+}
+
+.warning {
+	color: red;
+	font-style: italic;
+	font-size: 15px;
+}
