@@ -6,5 +6,5 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface IClientInfoService {
 
-	void getClientInfo(HttpServletRequest req) throws IOException;
+	String getClientInfo(HttpServletRequest req) throws IOException;
 }
