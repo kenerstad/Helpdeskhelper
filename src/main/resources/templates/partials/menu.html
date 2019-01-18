@@ -1,18 +1,26 @@
-<div xmlns:th="http://www.thymeleaf.org"
-     style="border: 1px solid #ccc;padding:5px;margin-bottom:20px;">
- 
-  <a th:href="@{/}">Home</a>
- 
-     | &nbsp;
-  
-   <a th:href="@{/userInfo}">User Info</a>
-  
-     | &nbsp;
-  
-   <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">Admin</a>
-    
-     | &nbsp;
-      
-   <a th:if="${#request.userPrincipal != null}" th:href="@{/logout}">Logout</a>
-  
-</div>
+
+<header class="blog-header py-3" >
+	<div class="menu row flex-nowrap justify-content-between align-items-center">
+		<div class="col-4 pt-1">
+			<a class="text-muted" th:if="${#request.userPrincipal == null}" href="/register">Register new account</a>		
+		</div>
+		
+		<div class="col-4 text-center">
+			<a class="blog-header-logo text-dark" href="/">HelpdeskHelper</a>
+		</div>
+		
+		<div class="col-4 d-flex justify-content-end align-items-center">          	
+			<a class="btn btn-sm btn-outline-secondary" th:if="${#request.userPrincipal == null}" href="/login">Log in</a>
+			<div class="dropdown" sec:authorize="isAuthenticated()">
+				<button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="accountdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<p sec:authentication="name"></p>
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a class="dropdown-item" href="/account">Account</a>
+					<a class="dropdown-item" href="/logout">Log out</a>
+					<a class="dropdown-item" sec:authorize="hasRole('ROLE_ADMIN')" href="/admin">Admin</a>
+				</div>
+			</div>			
+		</div>	
+	</div>
+</header>
