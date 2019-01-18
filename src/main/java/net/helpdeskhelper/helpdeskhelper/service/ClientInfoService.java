@@ -2,6 +2,8 @@ package net.helpdeskhelper.helpdeskhelper.service;
 
 //## Java
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -24,37 +26,82 @@ public class ClientInfoService implements IClientInfoService{
 	@Value("${geoLoc.APIKey}")
 	private String geoLocAPIKey;
 
-	public String getClientInfo(HttpServletRequest req) throws IOException{
+	public String getClientInfo(HttpServletRequest request) throws IOException{
 		
-		//String ip = getIPFromServletRequest(req);
-		String geoLocInfo = getGeolocationInfoIPv4("84.212.9.174");
+		//String ip = getClientIP(request);
+		String geoLocInfo = getClientGeolocationInfoIPv4("84.212.9.174");
+
+		System.out.println(request.getHeader("User-Agent"));
+		geoLocInfo.concat("   USER AGENT: " +request.getHeader("User-Agent"));
 		
 		return geoLocInfo;
 	}
-	
+			
 	// Checks for proxy forwarded IP adress, if none, gets actual IP address.
-	public String getIPFromServletRequest(HttpServletRequest req) {
+	public String getClientIP(HttpServletRequest request) {
 		
-		String ipAddress = req.getHeader("x-forwarded-for");
+		String ipAddress = request.getHeader("x-forwarded-for");
         if (ipAddress == null) {
-            ipAddress = req.getHeader("X_FORWARDED_FOR");
+            ipAddress = request.getHeader("X_FORWARDED_FOR");
             if (ipAddress == null)
-                ipAddress = req.getRemoteAddr();            
+                ipAddress = request.getRemoteAddr();            
         }    
         return ipAddress;
 	}	
 	
-	// Gets domain name from servlet request.
-	public String getDomainFromServletRequest(HttpServletRequest req) {
+	public String getClientBrowser(HttpServletRequest request) {
 		
-		String domain = req.getRemoteHost();		
+	     final String browserDetails = request.getHeader("User-Agent");
+
+	        //=================OS=======================
+	        final String lowerCaseBrowser = browserDetails.toLowerCase();
+	        if (lowerCaseBrowser.contains("windows")) {
+	            return "Windows";
+	        } else if (lowerCaseBrowser.contains("mac")) {
+	            return "Mac";
+	        } else if (lowerCaseBrowser.contains("x11")) {
+	            return "Unix";
+	        } else if (lowerCaseBrowser.contains("android")) {
+	            return "Android";
+	        } else if (lowerCaseBrowser.contains("iphone")) {
+	            return "IPhone";
+	        } else {
+	            return "UnKnown, More-Info: " + browserDetails;
+	        }
+	}
+	
+	public String getClientOS(HttpServletRequest request) {
+		
+		final String browserDetails = request.getHeader("User-Agent");
+
+        //=================OS=======================
+        final String lowerCaseBrowser = browserDetails.toLowerCase();
+        if (lowerCaseBrowser.contains("windows")) {
+            return "Windows";
+        } else if (lowerCaseBrowser.contains("mac")) {
+            return "Mac";
+        } else if (lowerCaseBrowser.contains("x11")) {
+            return "Unix";
+        } else if (lowerCaseBrowser.contains("android")) {
+            return "Android";
+        } else if (lowerCaseBrowser.contains("iphone")) {
+            return "IPhone";
+        } else {
+            return "UnKnown, More-Info: " + browserDetails;
+}
+	}
+	
+	// Gets domain name from servlet request.
+	public String getDomainFromServletRequest(HttpServletRequest request) {
+
+		String domain = request.getRemoteHost();		
 		if(domain == null)
 			return "Domain not found!";			
 		return domain;
 	}
 	
 	// Queries geolocation API on IP - API documentation: https://ipdata.co/docs.html
-	public String getGeolocationInfoIPv4(String ip) throws IOException{
+	public String getClientGeolocationInfoIPv4(String ip) throws IOException{
 		
 		System.out.println(geoLocAPIKey);
 		String geoURL = "https://api.ipdata.co/" +ip +"?api-key=" +geoLocAPIKey;
@@ -65,7 +112,12 @@ public class ClientInfoService implements IClientInfoService{
 		  .get();
 
 		//System.out.println("body:" + response.readEntity(String.class));
-		return response.readEntity(String.class);
-	}
-	
+		
+		String rawClientInfo = response.readEntity(String.class);
+		
+		String cleanedClientInfo = rawClientInfo.replace("{", "").replace("}", "")
+				.replace("[", "").replace("]", "").replace("\"", "");
+		
+		return cleanedClientInfo;
+	}	
 }
