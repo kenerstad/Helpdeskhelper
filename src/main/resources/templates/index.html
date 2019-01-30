@@ -6,10 +6,13 @@
 <body>
 	<div class="container">	
 		<th:block th:include="/partials/menu"></th:block>  	
-		
-		<div th:if="${description != null}" class="alert alert-primary" role="alert" th:utext="${description}"></div>	
-		
-		     tghgfhfhgfgh  
+		<div class="row">
+			<div class="col">
+				<div th:if="${description != null}" class="alert alert-primary" role="alert" th:utext="${description}"></div>	
+			<div>
+			
+		</div>
+		   
 	</div>
         
 <th:block th:include="/partials/scripts"></th:block>
