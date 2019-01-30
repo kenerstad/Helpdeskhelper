@@ -1,18 +1,20 @@
 package net.helpdeskhelper.helpdeskhelper.web.controller;
-
-//## Project
+// ## Java
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+// ## Spring
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+// ## Project
 import net.helpdeskhelper.helpdeskhelper.service.IIssueService;
 import net.helpdeskhelper.helpdeskhelper.web.dto.IssueDTO;
 
-//## Spring
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 
 @RestController
@@ -22,10 +24,16 @@ public class IssueController {
 	IIssueService issueService; 
 	
 	
-	@GetMapping("/api/getallcategories")
+	@GetMapping("/api/issue/getallcategories")
 	public String getAllCategories(Model model) {
-		System.out.println("/api/getallcategories");
 		
 		return issueService.getIssueCategories();			
+	}
+	
+	@PostMapping("/api/issue/getIssuesFromCategory")
+	public String getIssuesFromCategory(@RequestParam("category") String category) {
+		
+		return issueService.getIssuesByCategory(category);
+		
 	}
 }
