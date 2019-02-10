@@ -1,5 +1,6 @@
 package net.helpdeskhelper.helpdeskhelper.utils;
 
+//## java
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -7,24 +8,27 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Value;
-// Spring
+//## spring
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 
-// org.glassfish.jersey
+//## org.glassfish.jersey
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.MediaType;
 
-public class WebUtils {
+//## Jackson
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-	@Value("${geoLoc.APIKey}")
-	private static String geoLocAPIKey;
+
+public class WebUtils {
 	
 	public static List<String> userInfoToList(User userParam) {
 		
@@ -42,38 +46,31 @@ public class WebUtils {
 		return userInfo;
 	}
 	
-	// Checks for proxy forwarded IP adress, if none, gets actual IP adress.
-	public static String getIPFromServletRequest(HttpServletRequest req) {
+	public static String generateJSON(Object t) {
+			
+		ObjectMapper mapper = new ObjectMapper();
+		String JSON = null;
+		try {
+			JSON = mapper.writeValueAsString(t);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		String ipAddress = req.getHeader("x-forwarded-for");
-        if (ipAddress == null) {
-            ipAddress = req.getHeader("X_FORWARDED_FOR");
-            if (ipAddress == null)
-                ipAddress = req.getRemoteAddr();            
-        }    
-        return ipAddress;
+		return JSON;
 	}
 	
-	// Gets domain name from servlet request.
-	public static String getDomainFromServletRequest(HttpServletRequest req) {
-		
-		String domain = req.getRemoteHost();		
-		if(domain == null)
-			return "Domain not found!";			
-		return domain;
-	}
-	
-	// Queries geolocation API on IP - Service documentation: https://ipdata.co/docs.html
-	public static void getGeolocationInfoIPv4(String ip) throws IOException{
-		
-		System.out.println(geoLocAPIKey);
-		String geoURL = "https://api.ipdata.co/" +ip +"?api-key=" +geoLocAPIKey;
-		Client client = ClientBuilder.newClient();
-		Response response = client.target(geoURL)
-		  .request(MediaType.TEXT_PLAIN_TYPE)
-		  .header("Accept", "application/json")
-		  .get();
 
-		System.out.println("body:" + response.readEntity(String.class));
+	public static <E> Object decodeJSON(String t) {
+		
+		ObjectMapper mapper = new ObjectMapper();
+		Object a = null;
+		try {
+			a = mapper.readValue(t, Object.class);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		return a;
 	}
 }
