@@ -68,13 +68,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	        	.formLogin()
                 .loginProcessingUrl("/security_check") 
                 .loginPage("/login")//
-                .defaultSuccessUrl("/account")
+                .defaultSuccessUrl("/")
                 .failureUrl("/login?error=true")
-                .usernameParameter("username")
+                .usernameParameter("email")
                 .passwordParameter("password")              
                 .and()
                 .logout()
-                .logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
+                .logoutUrl("/logout").logoutSuccessUrl("/?status=logout");
  
 	        /*
 	        // Config Remember Me.
