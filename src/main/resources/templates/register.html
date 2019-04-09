@@ -1,85 +1,84 @@
-<!DOCTYPE HTML>
+ <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-   <head>
-      <title th:utext="${title}"></title>
-      <style>
-         th, td {
-         padding: 5px;
-         }
-         td span  {
-         font-size:90%;
-         font-style: italic;
-         color: red;
-         }
-         .error {
-         color: red;
-         font-style: italic;
-         }
-      </style>
-   </head>
-   <body>
-      <!-- Include menu.html -->
-      <th:block th:include="/partials/menu"></th:block>
-       
-      <h2>Register</h2>
-       
-      <div th:if="${errorMessage != null}"
-           th:utext="${errorMessage}" class="error">...</div>
-       
-      <form th:action="@{/register}" th:object="${userForm}" method="POST">
-         <table>
-            <tr>
-               <td>User Name</td>
-               <td><input type="text" th:field="*{userName}" /></td>
-               <td>
-                  <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">..</span>
-               </td>
-            </tr>
-            <tr>
-               <td>Password</td>
-               <td><input type="password" th:field="*{password}" /> </td>
-               <td>
-                  <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">..</span>
-               </td>
-            </tr>
-            <tr>
-               <td>Confirm</td>
-               <td><input type="password" th:field="*{confirmPassword}" /> </td>
-               <td>
-                  <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">..</span>
-               </td>
-            </tr>
-            <tr>
-               <td>Email</td>
-               <td><input type="text" th:field="*{email}" /> </td>
-               <td>
-                  <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">..</span>
-               </td>
-            </tr>
-            <tr>
-               <td>First Name</td>
-               <td><input type="text" th:field="*{firstName}" /> </td>
-               <td>
-                  <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">..</span>
-               </td>
-            </tr>
-            <tr>
-               <td>Last Name</td>
-               <td><input type="text" th:field="*{lastName}" /> </td>
-               <td>
-                  <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">..</span>
-               </td>
-            </tr>                                
-            <tr>
-               <td>&nbsp;</td>
-               <td>
-                  <input type="submit" value="Submit" />
-                  <a th:href="@{/}">Cancel</a>
-               </td>
-               <td>&nbsp;</td>
-            </tr>
-         </table>
-      </form>
-       
-   </body>
+<html lang="en">
+<th:block th:include="/partials/head"></th:block>
+
+   	<body>
+   		<div class="container">	
+	      	<th:block th:include="/partials/menu"></th:block>
+	       <div class="row">
+				<div class="col-md-3"></div>
+				<div class="col-md-2"><h2>Register</h2></div>
+		   </div>
+			<div th:if="${errorMessage != null}"
+				th:utext="${errorMessage}" class="error">...</div>
+		   
+			<form class="formstart" th:action="@{/register}" th:object="${userForm}" method="POST">	         	
+				<div class="forminput row">
+					<div class="col-md-3"></div>
+					<div class="col-md-2"><label class="label_input">User Name</label></div>
+					<div class="col-md-4">
+						<input type="text" class="form-control" th:field="*{userName}" />
+						<small class="warning" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}">..</small>						
+					</div>												
+				</div>
+				
+				<div class="forminput row">
+					<div class="col-md-3"></div>
+					<div class="col-md-2"><label class="label_input">Password</label></div>
+					<div class="col-md-4">
+						<input type="password" class="form-control" th:field="*{password}" />
+						<small class="warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">..</small>
+					</div>
+					
+				</div>				
+				<div class="forminput row">	
+					<div class="col-md-3"></div>
+					<div class="col-md-2"><label class="label_input">Confirm</label></div>
+					<div class="col-md-4">
+						<input type="password" class="form-control" th:field="*{confirmPassword}" />
+						<small class="warning" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">..</small>
+					</div>				
+							
+				</div>
+				<div class="forminput row">
+					<div class="col-md-3"></div>
+					<div class="col-md-2"><label class="label_input">Email</label></div>
+					<div class="col-md-4">
+						<input type="text" class="form-control" th:field="*{email}" />
+						<small class="warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">..</small>
+					</div> 						
+					
+				</div>
+				<div class="forminput row">	
+					<div class="col-md-3"></div>
+					<div class="col-md-2"><label class="label_input">First Name</label></div>
+					<div class="col-md-4">
+						<input type="text" class="form-control" th:field="*{firstName}" />
+						<small class="warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">..</small>
+					</div>						
+					
+				</div>
+				<div class="forminput row">
+					<div class="col-md-3"></div>			
+					<div class="col-md-2"><label class="label_input">Last Name</label></div>
+					<div class="col-md-4">
+						<input type="text" class="form-control" th:field="*{lastName}" />
+						<small class="warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">..</small>
+					</div>					
+					
+				</div>
+				<div class="forminput form-group row align-items-center">
+					<div class="col-md-3"></div>
+					<div class="col-md-2">
+						<button type="submit" class="btn btn-primary btn-block" value="Submit">Submit </button>
+					</div>
+					<div class="col-md-4">
+						<a th:href="@{/}">Cancel</a>
+					</div>
+				</div>
+			</form>			
+	 		<th:block th:include="/partials/scripts"></th:block>    
+	 	</div>  
+	</body>
 </html>
