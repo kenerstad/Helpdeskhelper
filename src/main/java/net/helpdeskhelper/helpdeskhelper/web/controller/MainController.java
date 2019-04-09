@@ -1,14 +1,18 @@
 package net.helpdeskhelper.helpdeskhelper.web.controller;
 
-//## Java standard
+//## Java
 import java.security.Principal;
 import java.util.List;
+import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
 
 //## Project
 import net.helpdeskhelper.helpdeskhelper.utils.WebUtils;
 import net.helpdeskhelper.helpdeskhelper.web.dto.UserFormDTO;
 import net.helpdeskhelper.helpdeskhelper.validator.UserFormValidator;
 import net.helpdeskhelper.helpdeskhelper.service.IUserService;
+import net.helpdeskhelper.helpdeskhelper.service.IClientInfoService;
+import net.helpdeskhelper.helpdeskhelper.service.IMailService;
 
 //## Spring
 import org.springframework.beans.factory.annotation.Value;
@@ -26,18 +30,25 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Controller
 public class MainController {
-	
+		
 	@Autowired
 	UserFormValidator userFormValidator;
 	
 	@Autowired
 	IUserService userService;
+	
+	@Autowired
+	IClientInfoService clientInfoService;
+	
+	@Autowired
+	IMailService mailService;
 
 	@Value("${app.title}")
 	private String appTitle;
@@ -63,10 +74,16 @@ public class MainController {
    }
 	
 	@GetMapping("/")
-	public String showWelcomePage(Model model) {
-		model.addAttribute("title", appTitle);
-		model.addAttribute("description", indexPageDesc);
-		return "welcome";
+	public String showWelcomePage(@RequestParam(name="status", required = false) String status,
+			Model model) {
+		if(status != null) {
+			if(status.equals("logout")) {
+				System.out.println("status = logout");
+				model.addAttribute("title", appTitle);
+				model.addAttribute("description", "Successfully logged out");
+			}
+		}				
+		return "index";
 	}
 	
 	@GetMapping("/register")
@@ -90,6 +107,17 @@ public class MainController {
 		 return "registerSuccess";
 	}
 	
+	public String showHelperPage(Model model, HttpServletRequest req) {
+		
+		
+		return "helperpage";
+	}
+		
+	@GetMapping("/helper")
+	public String showHelperPage(Model model) {
+		return "helper";
+	}
+	
 	
 	//## SECURITY ##
 	
@@ -108,6 +136,12 @@ public class MainController {
 		List<String> userInfo = WebUtils.userInfoToList(authenticatedUser);
 		model.addAttribute("userInfo", userInfo);
 		return "account";
+	}
+	
+	@GetMapping("/admin_") 
+	public String showAdminPage() {
+		
+		return "admin/adminoverview";
 	}
 	
 	@GetMapping("/logoutSuccessful")
