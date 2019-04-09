@@ -1,6 +1,7 @@
 package net.helpdeskhelper.helpdeskhelper.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,7 +16,16 @@ public class MailService implements IMailService{
     private JavaMailSender emailSender;
 	
 	@Autowired
-	private MailContentService maiLContent;
+	private MailContentService mailContent;
+	
+	@Value("${mail.subject}")
+	private String subject;
+	
+	@Value("${mail.from}")
+	private String from;
+	
+	@Value("${mail.to}")
+	private String to;
  
     public void sendSimpleMessage(
     		String to, String subject, String text) {
@@ -32,15 +42,14 @@ public class MailService implements IMailService{
         
     }
     
-    public void sendMessage(
-    		String to, String subject, String body) {
+    public void sendMessageToSupport(Object body) {
     	
     	 MimeMessagePreparator message = mimeMessage -> {
     	        MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-    	        String content = maiLContent.build(body);
-    	        messageHelper.setFrom("sample@dolszewski.com");
+    	        String content = mailContent.build(body);
+    	        messageHelper.setFrom(from);
     	        messageHelper.setTo(to);
-    	        messageHelper.setSubject("Helpdeskhelper helping you");
+    	        messageHelper.setSubject(subject);
     	        messageHelper.setText(content, true);
     	    };
     	    try {
