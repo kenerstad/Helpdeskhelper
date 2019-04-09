@@ -6,14 +6,24 @@ import java.util.List;
 
 public class IssueDTO {
 	
+	private Long id;
+	
 	private String issueName;
 	
-	private String issueCategory;
+	private String issueDescription;
 
 	private List<String> questions;
 	
 	public IssueDTO() {
 		
+	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 	public String getIssueName() {
@@ -24,12 +34,12 @@ public class IssueDTO {
 		this.issueName = issueName;
 	}
 
-	public String getIssueCategory() {
-		return issueCategory;
+	public String getissueDescription() {
+		return issueDescription;
 	}
 
-	public void setIssueCategory(String issueCategory) {
-		this.issueCategory = issueCategory;
+	public void setissueDescription(String issueDescription) {
+		this.issueDescription = issueDescription;
 	}
 
 	public Collection<String> getQuestions() {
