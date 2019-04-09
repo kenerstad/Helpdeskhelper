@@ -1,6 +1,10 @@
 package net.helpdeskhelper.helpdeskhelper.service;
 
-//## Local
+//## Spring
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+//## Project
 import net.helpdeskhelper.helpdeskhelper.web.dto.UserFormDTO;
 import net.helpdeskhelper.helpdeskhelper.persistence.dao.UserRepository;
 import net.helpdeskhelper.helpdeskhelper.persistence.dao.RoleRepository;
@@ -8,13 +12,10 @@ import net.helpdeskhelper.helpdeskhelper.persistence.model.UserModel;
 import net.helpdeskhelper.helpdeskhelper.persistence.model.RoleModel;
 import net.helpdeskhelper.helpdeskhelper.utils.EncryptPasswordUtil;
 
-//## Spring
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 
 @Service
-public class UserService {
+public class UserService implements IUserService{
 	
 	@Autowired
 	UserRepository userRepo;
