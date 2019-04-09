@@ -27,6 +27,6 @@ public class HelpdeskhelperApplication implements CommandLineRunner{
 
     	System.out.println(userService.generateDefaultRoles());
     	System.out.println(userService.generateDefaultUser());    
-    	issueService.generateIssues();
+    	issueService.generateTemplates();
     }   
 }
