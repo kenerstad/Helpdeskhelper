@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/animStyles.css}"/>
+<th:block th:include="/partials/head"></th:block>
+
+	<body>
+		<div class="container noFade">	
+			<th:block th:include="/partials/menu"></th:block>  	
+			<div class="row noFade">
+				<div class="col-12 noFade">
+					<div class="adminExplanation noFade">
+						<p id="adminExplanationText"></p>
+						<p id="adminAlertText"></p>
+					</div>
+				</div>
+			</div>
+			<div class="row forminput noFade">							
+				<div class="col-4 noFade">					
+					<div id="categoryContainer" class="listContainer hide noFade">
+						<div class="listTitle"><p class="listTitleText">Categories</p></div>
+						<div id="categoryList" class="list-group noFade"></div>
+						<div class="newRemoveBtn-group">
+							<button type="button" id="addCategoryBtn" class="btn btn-secondary" style="float:left" onclick="addCategoryBtnClicked()">+ New</button>
+							<button type="button" id="removeCategoryBtn" class="btn btn-danger hide" style="float:left" onclick="deleteCategoryBtnClicked()">- Delete</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-1 noFade"></div>
+				<div class="col-7 noFade">
+					<div id="issueContainer" class="listContainer hide noFade">
+						<div class="listTitle"><p id="issueListTitle" class="listTitleText"></p></div>
+						<div id="issueList" class="list-group noFade"></div>
+						<div class="newRemoveBtn-group">
+							<button type="button" id="addIssueBtn" class="btn btn-secondary" style="float:left" onclick="addIssueBtnClicked()">+ New</button>
+							<button type="button" id="removeIssueBtn" class="btn btn-danger hide" style="float:left" onclick="deleteIssueBtnClicked(this)">- Delete</button>
+						</div>
+					</div>
+				</div>					
+			</div>
+			
+			<div class="row padding50 noFade">
+				<div class="col-10 noFade">					
+					<div id="questionContainer" class="listContainer hide noFade">
+						<div class="listTitle"><p id="questionListTitle" class="listTitleText"></p></div>
+						<div id="questionList" class="list-group noFade"></div>
+						<div class="newRemoveBtn-group">
+							<button type="button" id="addQuestionBtn" class="btn btn-secondary" style="float:left" onclick="addQuestionBtnClicked()">+ New</button>
+							<button type="button" id="removeQuestionBtn" class="btn btn-danger hide" style="float:left" onclick="deleteQuestionBtnClicked()">- Delete</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-2 noFade"></div>
+			</div>
+
+		</div>	
+		
+		<th:block th:include="/partials/scripts"></th:block>
+		<script src="/js/admin/admincontroller.js"></script>
+		<script src="/js/ajax.js"></script>
+		<script src="/js/admin/listenerSetters.js"></script>
+		<script src="/js/admin/contentGenerators.js"></script>
+		<script src="/js/admin/showHide.js"></script>
+	</body>		
+</html>

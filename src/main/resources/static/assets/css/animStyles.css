@@ -1,0 +1,21 @@
+
+.anim-fadeInNewEl{
+  animation: animateElement linear .05s;
+  animation-iteration-count: 1;
+  background:#e7e7e7;
+  margin-bottom:5px;
+  width:100%;
+  min-height:30px;
+  border-radius:10px;S
+ }
+ 
+ @keyframes animateElement{
+  0% {
+    opacity:0;
+    transform:  translate(0px,10px);
+  }
+  100% {
+    opacity:1;
+    transform:  translate(0px,0px);
+  }
+}
