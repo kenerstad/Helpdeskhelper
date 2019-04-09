@@ -1,5 +1,6 @@
 package net.helpdeskhelper.helpdeskhelper.persistence.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -17,24 +18,24 @@ public class Question {
 	@Id
     @GeneratedValue
     @NotNull
-    private Long questionID;
-	
+    private Long questionId;
+		
 	@NotNull
 	@Size(max = 200)
 	private String question;
 		
 	@ManyToOne
-	@JoinColumn(name="issueId", nullable=false)
+	@JoinColumn(name="issueId", nullable=true)
 	private Issue issue;
 
 	public Long getQuestionID() {
-		return questionID;
+		return questionId;
 	}
 
 	public void setQuestionID(Long questionID) {
-		this.questionID = questionID;
+		this.questionId = questionID;
 	}
-
+	
 	public String getQuestion() {
 		return question;
 	}
