@@ -1,10 +1,11 @@
 package net.helpdeskhelper.helpdeskhelper.service;
 
+//## spring
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
 
 @Service
 public class MailContentService {
@@ -16,9 +17,9 @@ public class MailContentService {
 	        this.templateEngine = templateEngine;
 	    }
 	 
-	    public String build(String message) {
+	    public String build(Object body) {
 	        Context context = new Context();
-	        context.setVariable("message", message);
+	        context.setVariable("message", body);
 	        return templateEngine.process("mail/helpdeskmessage", context);
 	    }
 	 
