@@ -1,7 +1,10 @@
 package net.helpdeskhelper.helpdeskhelper.persistence.model;
 
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,13 +26,13 @@ public class IssueCategory {
 	@NotNull
 	@Size(max = 36)
 	private String categoryName;
-	
-	@NotNull
-	@Size(max = 150)
-	private String categoryDescription;
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "issueCategory")
-	private Set<Issue> issues;
+		
+	@OneToMany(
+			cascade = CascadeType.REMOVE, 
+			orphanRemoval = true, 
+			fetch = FetchType.LAZY, 
+			mappedBy = "issueCategory")
+	private List<Issue> issues;
 	
 	public Long getCategoryId() {
 		return categoryId;
@@ -47,19 +50,11 @@ public class IssueCategory {
 		this.categoryName = categoryName;
 	}
 
-	public String getCategoryDescription() {
-		return categoryDescription;
-	}
-
-	public void setCategoryDescription(String categoryDescription) {
-		this.categoryDescription = categoryDescription;
-	}
-
-	public Set<Issue> getIssues() {
+	public List<Issue> getIssues() {
 		return issues;
 	}
 
-	public void setIssues(Set<Issue> issues) {
+	public void setIssues(List<Issue> issues) {
 		this.issues = issues;
 	}
 }
