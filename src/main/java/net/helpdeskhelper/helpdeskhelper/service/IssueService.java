@@ -48,16 +48,7 @@ public class IssueService implements IIssueService{
 	
 	@SuppressWarnings("null")
 	public String getIssueCategories(){
-		/*
-		Set<String> categories = null;
-		List<Issue> issues = (List<Issue>) issueRepo.findAll();
-		
-		for (Issue issue : issues) {
-			categories.add(issue.getIssueCategory());
-		}
-		
-		return categories;
-		*/
+
 		List<IssueCategory> issueCategories = (List<IssueCategory>) issueCategoryRepo.findAll();
 		
 		List<CategoryDTO> categories = new ArrayList<CategoryDTO>();

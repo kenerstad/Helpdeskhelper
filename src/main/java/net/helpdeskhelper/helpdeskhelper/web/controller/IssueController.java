@@ -36,7 +36,7 @@ public class IssueController {
 	
 	
 	@GetMapping("/api/issue/getallcategories")
-	public String getAllCategories(Model model) {
+	public String getAllCategories() {
 		
 		return issueService.getIssueCategories();			
 	}
