@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<th:block th:include="/partials/head"></th:block>
+
+
+	<body>
+		<div class="container noFade">	
+			<th:block th:include="/partials/menu"></th:block>  	
+			<div class="row noFade">
+					<div id="explanation" class="explanation"></div>
+					<div id="progress">
+						<div id="progressBar1" class="text-center">
+							<img src="/assets/images/Nav_Page1.png" id="nav" style="width:80px;height:18px;"> 					
+						</div>
+						<div id="progressBar2" class="text-center hide">
+							<img src="/assets/images/Nav_Page2.png" id="nav" style="width:80px;height:18px;"> 					
+						</div>
+						<div id="progressBar3" class="text-center hide">
+							<img src="/assets/images/Nav_Page3.png" id="nav" style="width:80px;height:18px;"> 					
+						</div>
+					</div>
+			</div>
+			<div class="row noFade">
+				<div id="navigation" class="formstart">
+					<button type="button" id="bckbtn" class="hide btn btn-primary btn-lg" style="float:left" onclick="bckBtnClicked()">Previous</button>
+					<button type="button" id="fwdBtn" class="hide btn btn-primary btn-lg" style="float:right" onclick="fwdBtnClicked()">Next</button>
+					<button type="submit" id="submitFormBtn" class="hide btn btn-primary btn-lg" style="float:right" form="userForm">Submit</button>
+				</div>				
+			</div>
+			<div class="row noFade">
+			
+				<div id="page1" class="forminput">
+					<div class="col-4">
+						<div id="categoryList" class="list-group noFade"></div>	
+					</div>
+					<div class="col-8">
+						<div class="tab-content">
+							<div class="tab-pane fade show active" id="issues" role="tabpanel" aria-labelledby="list-home-list">...</div>
+						</div>
+					</div>				
+				</div>	
+				
+				<div id="page2" class="hide forminput">
+					<p id="issueDescription"></p>
+					<div id="questions"></div>		
+				</div>
+										
+				<div id="page3" class="hide forminput">										
+					<form id="userForm" action="javascript:submitHelperForm();">
+					  <label class="label_input">Phone</label>
+					  <input id="formInput_phone" class="form-control"
+						required
+						type="number"
+						min="8"
+						max ="8" 
+						name="phone"
+						placeholder="Phone number" />							
+					</form>						
+				</div>
+				
+				<div id="page4" name="summary" class="hide alert alert-success" role="success">
+					<p>Your issue has been submitted, we will call you back as soon as we can and help you with your issue. :)</p>
+					<button type="button" id="backBtn" class="hide btn btn-primary btn-lg" style="float:middle">Back</button>
+				</div>
+			</div>					
+		</div>			
+		   	       
+		<th:block th:include="/partials/scripts"></th:block>
+		<script src="/js/issueController.js"></script>
+	</body>		
+</html>
