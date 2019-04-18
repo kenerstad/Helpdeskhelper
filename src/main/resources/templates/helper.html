@@ -6,17 +6,12 @@
 
 
 	<body>
-		<div class="container">	
+		<div class="container noFade">	
 			<th:block th:include="/partials/menu"></th:block>  	
-			<div class="row">
-				<div class="col-md-1"></div>
-				<div class="col-md-10">
-					<div id="explanation" class="explanation">
-						<p id="desc1" class="explanationText">The current screen shows a set of categories, if you click a category it will show a related issue.</p>
-						<p id="desc2" class="explanationText hide">Now that you've selected an issue, here are some simple questions for you to answer. When you have answered them all please click the next button.</p>
-						<p id="desc3" class="explanationText hide">Here is a summary of what you have done so far, if the information you've submitted is correct please leave some 
-						information about yourself so we may contact you when we are able.</p>
-					</div>
+			
+			<div class="row noFade">
+				<div class="col-12">
+					<div id="explanation" class="explanation"></div>
 					<div id="progress">
 						<div id="progressBar1" class="text-center">
 							<img src="/assets/images/Nav_Page1.png" id="nav" style="width:80px;height:18px;"> 					
@@ -28,63 +23,62 @@
 							<img src="/assets/images/Nav_Page3.png" id="nav" style="width:80px;height:18px;"> 					
 						</div>
 					</div>
-					
-					<div id="page1" class="forminput">
-						<div id="categoryList__"></div>	
+				</div>
+			</div>
+			
+			<div class="row noFade">
+				<div class="col-12">
+					<div id="navigation" class="formstart">
+						<button type="button" id="bckbtn" class="hide btn btn-primary btn-lg" style="float:left" onclick="bckBtnClicked()">Previous</button>
+						<button type="button" id="fwdBtn" class="hide btn btn-primary btn-lg" style="float:right" onclick="fwdBtnClicked()">Next</button>						
+					</div>	
+				</div>
+			</div>
+			
+			<div id="page1">	
+				<div class="row">		
+					<div class="col-4" style="display: block;">
+						<div id="categoryList" class="list-group noFade"></div>	
+					</div>
+					<div class="col-8">
+						<div id="issueList" class="list-group noFade"></div>
+					</div>				
+				</div>
+			</div>
 
-						<div class="row">
-						<div class="col-4">
-							<div class="list-group" id="categoryList" role="tablist">
-								
-							</div>
-						  </div>
-						  <div class="col-8">
-							<div class="tab-content">
-								<div class="tab-pane fade show active" id="issues" role="tabpanel" aria-labelledby="list-home-list">...</div>
-							</div>
-						  </div>
-						</div>
-					</div>
-					
-					<div id="page2" class="hide forminput">
-						<p id="issueDescription"></p>
-						<div id="questions"></div>		
-					</div>
-										
-					<div id="page3" class="hide forminput">										
+			<div id="page2" class="hide">		
+				<div class="row">				
+					<p id="issueDescription"></p>
+					<div id="questionList"></div>		
+				</div>
+			</div>	
+			
+			<div id="page3" class="hide">
+				<div class="row">
+					<div class="col-12">
 						<form id="userForm" action="javascript:submitHelperForm();">
 						  <label class="label_input">Phone</label>
 						  <input id="formInput_phone" class="form-control"
 							required
-							type="number"
-							min="8"
-							max ="8" 
-							name="phone"
 							placeholder="Phone number" />							
-						</form>						
+						</form>	
+						<button type="submit" id="submitFormBtn" class="btn btn-primary btn-lg" style="float:right" form="userForm">Submit</button>
 					</div>
-					
-					<div id="page4" name="summary" class="hide alert alert-success" role="success">
-						<p>Your issue has been submitted, we will call you back as soon as we can and help you with your issue. :)</p>
-						<button type="button" id="backBtn" class="hide btn btn-primary btn-lg" style="float:middle">Back</button>
-					</div>
-					
-					<div id="navigation" class="formstart">
-						<button type="button" id="bckbtn" class="hide btn btn-primary btn-lg" style="float:left" onclick="bckBtnClicked()">Previous</button>
-						<button type="button" id="fwdBtn" class="hide btn btn-primary btn-lg" style="float:right" onclick="fwdBtnClicked()">Next</button>
-						<button type="submit" id="submitFormBtn" class="hide btn btn-primary btn-lg" style="float:right" form="userForm">Submit</button>
-					</div>	
-				</div>			
+				</div>
 			</div>
-				<div class="col-md-1"></div>
-		</div>			   	       
+			
+			<div id="page4" name="summary" class="hide alert alert-success" role="success">
+				<p>Your issue has been submitted, we will call you back as soon as we can and help you with your issue. :)</p>
+				<button type="button" id="anotherIssuetBtn" class="btn btn-primary btn-lg" onclick="anotherIssueClicked()" style="float:middle">I have another issue</button>
+			</div>
+				
+		</div>			
+		   	       
 		<th:block th:include="/partials/scripts"></th:block>
-		<script src="/js/issueController.js"></script>
-	</body>
-	
-	
-	
-	
-	
-		
+		<script src="/js/helper/helpercontroller.js"></script>
+		<script src="/js/helper/ajax.js"></script>
+		<script src="/js/helper/contentGenerators.js"></script>
+		<script src="/js/helper/listenerSetters.js"></script>
+		<script src="/js/helper/showHide.js"></script>
+	</body>		
 </html>
