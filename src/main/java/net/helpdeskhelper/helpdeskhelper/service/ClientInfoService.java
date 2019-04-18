@@ -30,8 +30,8 @@ public class ClientInfoService implements IClientInfoService{
 	public List<String> getClientInfo(HttpServletRequest request) throws IOException{
 		
 		//String ip = getClientIP(request);
-		//String geoLocInfo = getClientGeolocationInfoIPv4("84.212.9.174");
-		String geoLocInfo = "here goes the geoloc info.";
+		String geoLocInfo = getClientGeolocationInfoIPv4("84.212.9.174");
+		//String geoLocInfo = "here goes the geoloc info.";
 		List<String> clientInfo = new ArrayList<String>();
 		clientInfo.add("Browser: " +getClientBrowser(request));
 		clientInfo.add("OS: " +getClientOS(request));
