@@ -27,6 +27,13 @@ public class ClientInfoService implements IClientInfoService{
 	@Value("${geoLoc.APIKey}")
 	private String geoLocAPIKey;
 
+	
+	/*
+	 * Gets various information contained in client HttpServletRequest.
+	 * It first gets remote client IP, then using this IP gets the following info:
+	 * Geolocation info, browser version, operating system version.
+	 * Stores this information in an array and returns it.
+	 */
 	public List<String> getClientInfo(HttpServletRequest request) throws IOException{
 		
 		//String ip = getClientIP(request);
@@ -39,10 +46,13 @@ public class ClientInfoService implements IClientInfoService{
 		
 		return clientInfo;
 	}
-	
 
 			
-	// Checks for proxy forwarded IP adress, if none, gets actual IP address.
+	/* 
+	 * Gets IP address from HttpServletRequest, 
+	 * checks if address originates from proxy, load balancer or cloudflare,
+	 * and if so gets the originating IP.
+	 */
 	private String getClientIP(HttpServletRequest request) {
 		
 		String ipAddress = request.getHeader("x-forwarded-for");
@@ -54,6 +64,10 @@ public class ClientInfoService implements IClientInfoService{
         return ipAddress;
 	}	
 	
+	/*
+	 * Gets client browser version from HttpServletRequest.
+	 * Checks for: Internet explorer, safari, opera, chrome, firefox.
+	 */
 	private String getClientBrowser(HttpServletRequest request) {
 		
 	     final String browserDetails = request.getHeader("User-Agent");
@@ -84,7 +98,6 @@ public class ClientInfoService implements IClientInfoService{
 	        } 
 	     
 	     else if ((user.indexOf("mozilla/7.0") > -1) || (user.indexOf("netscape6") != -1)  || (user.indexOf("mozilla/4.7") != -1) || (user.indexOf("mozilla/4.78") != -1) || (user.indexOf("mozilla/4.08") != -1) || (user.indexOf("mozilla/3") != -1) ) {
-	            //browser=(userAgent.substring(userAgent.indexOf("MSIE")).split(" ")[0]).replace("/", "-");
 	            browser = "Netscape-?";
 
 	        } 
@@ -103,12 +116,16 @@ public class ClientInfoService implements IClientInfoService{
 	     return browser;
 	}
 	
+	/*
+	 * Gets operating system from HttpServletRequest.
+	 * Checks for: Internet explorer, safari, opera, chrome, firefox.
+	 */
 	private String getClientOS(HttpServletRequest request) {
 		
-		final String browserDetails = request.getHeader("User-Agent");
+		final String osDetails = request.getHeader("User-Agent");
 
         //=================OS=======================
-        final String lowerCaseBrowser = browserDetails.toLowerCase();
+        final String lowerCaseBrowser = osDetails.toLowerCase();
         if (lowerCaseBrowser.contains("windows")) {
             return "Windows";
         } else if (lowerCaseBrowser.contains("mac")) {
@@ -120,11 +137,13 @@ public class ClientInfoService implements IClientInfoService{
         } else if (lowerCaseBrowser.contains("iphone")) {
             return "IPhone";
         } else {
-            return "UnKnown, More-Info: " + browserDetails;
+            return "UnKnown, More-Info: " + osDetails;
 }
 	}
 	
-	// Gets domain name from servlet request.
+	/*
+	 * Gets remote client domain name from HttpServletRequest.
+	 */
 	private String getDomainFromServletRequest(HttpServletRequest request) {
 
 		String domain = request.getRemoteHost();		
@@ -133,7 +152,11 @@ public class ClientInfoService implements IClientInfoService{
 		return domain;
 	}
 	
-	// Queries geolocation API on IP - API documentation: https://ipdata.co/docs.html
+	/*
+	 * Gets geolocation info from provided IP.
+	 * Uses web API for geolocation - Documentation: https://ipdata.co/docs.html.
+	 * 
+	 */
 	private String getClientGeolocationInfoIPv4(String ip) throws IOException{
 		
 		System.out.println(geoLocAPIKey);
@@ -150,11 +173,7 @@ public class ClientInfoService implements IClientInfoService{
 	
 		String cleanedClientInfo = rawClientGeoLocInfo.replace("{", "").replace("}", "")
 				.replace("[", "").replace("]", "").replace("\"", "");
-		
-	
-	
-		
+				
 		return cleanedClientInfo;
-		//return cleanedClientInfo;
 	}	
 }

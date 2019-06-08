@@ -46,6 +46,10 @@ public class IssueService implements IIssueService{
 		feedback = new AdminFeedbackDTO();
 	}
 	
+	/**
+	 * Gets all issue categories from DB & inserts into DTO,
+	 * Converts DTO to JSON object and returns this object.
+	 */
 	@SuppressWarnings("null")
 	public String getIssueCategories(){
 
@@ -60,22 +64,28 @@ public class IssueService implements IIssueService{
 			categories.add(categoryDTO);
 		}
 
-		String stuff = WebUtils.generateJSON(categories);
-		System.out.println(stuff);
-		return stuff;
+		return WebUtils.generateJSON(categories);
+
 		 
 	}
 	
+	/**
+	 * Gets all issues associated with category ID.
+	 * Returns list of issueDTO's.
+	 */
 	public String getIssuesByCategory(Long catId){
 				
 		IssueCategory issueCategory = issueCategoryRepo.findByCategoryId(catId);
 		List<Issue> issues = issueCategory.getIssues();
-		return WebUtils.generateJSON(convertIssuesFromCategoryToString(issues));
+		return WebUtils.generateJSON(generateIssueDTOList(issues));
 		
 		//return WebUtils.generateJSON(category);
 	}
 	
-	private List<IssueDTO> convertIssuesFromCategoryToString(Collection<Issue> issues) {
+	/**
+	 * Converts collection of issues to list of issue DTO's & returns it.
+	 */
+	private List<IssueDTO> generateIssueDTOList(Collection<Issue> issues) {
 		
 		List<IssueDTO> issueList = new ArrayList<IssueDTO>();
 		for (Issue issue : issues) {
@@ -88,6 +98,11 @@ public class IssueService implements IIssueService{
 		return issueList;
 	}
 	
+	/*
+	 * Gets all questions related to an issue by the issue's ID.
+	 * Generates DTO's for all questions and inserts them into list.
+	 * Converts list to JSON object & returns it.
+	 */
 	public String getQuestionsByIssue(Long issueId) {
 		
 		Issue issue = this.issueRepo.findByIssueId(issueId);
@@ -103,25 +118,42 @@ public class IssueService implements IIssueService{
 		return WebUtils.generateJSON(questions);
 	}
 		
+	/*
+	 * Public method for adding single new category by name.
+	 * Calls private method generateCategory() for impl.
+	 * returns JSON object of feedbackDTO.
+	 */
 	public String addCategory(String category) {
 		
 		feedback.setId(generateCategory(category));
 		return WebUtils.generateJSON(feedback);
 	}
 	
+	/*
+	 * Public method for adding single issue to category.
+	 * Calls private method generateIssue() for impl.
+	 * returns JSON object of feedbackDTO.
+	 */
 	public String addIssueToCategory(Long catId, String issueName, String issueDescription) {
 		
 		feedback.setId(generateIssue(catId, issueName, issueDescription));
 		return WebUtils.generateJSON(feedback);
 	}
 	
+	/*
+	 * Public method for adding single question to issue.
+	 * Calls private method generateQuestion() for impl.
+	 * Returns JSON object of feedbackDTO.
+	 */
 	public String addQuestionToIssue(Long issueId, String questionText) {
 		
 		feedback.setId(generateQuestion(issueId, questionText));
 		return WebUtils.generateJSON(feedback);
 	}
 	
-
+	/*
+	 * Public method for generating template categories, issues & questions.
+	 */
 	public void generateTemplates() {
 		
 		Long cat1Id = generateCategory("Category1");
@@ -144,6 +176,9 @@ public class IssueService implements IIssueService{
 		//generateQuestion("this is question 3", "issue1");
 	}
 	
+	/*
+	 * Creates  new IssueCategory with submitted name & saves to repository.
+	 */
 	public Long generateCategory (String categoryName) {
 		
 		IssueCategory category = new IssueCategory();
@@ -159,6 +194,12 @@ public class IssueService implements IIssueService{
 		return category.getCategoryId();
 	}
 	
+	/*
+	 * Updates name of category.
+	 * Retrieves category from repository by id & updates name,
+	 * saves changes to repository.
+	 * Returns feedback for namechange.
+	 */
 	public String updateCategory (Long id, String catName, String catNameChange) {
 		
 		IssueCategory catModel = issueCategoryRepo.findByCategoryId(id);
@@ -178,6 +219,12 @@ public class IssueService implements IIssueService{
 		return WebUtils.generateJSON(feedback);
 	}
 	
+	/*
+	 * Deletes category by id.
+	 * Retrieves category from repository by id,
+	 * deletes retrieved category from repository/DB.
+	 * Returns feedback on success/failure.
+	 */
 	public String deleteCategory(Long id) {
 		
 		IssueCategory catModel = issueCategoryRepo.findByCategoryId(id);
@@ -196,6 +243,12 @@ public class IssueService implements IIssueService{
 		return WebUtils.generateJSON(feedback);
 	}	
 	
+	/*
+	 * Creates new issue with submitted name & description.
+	 * Finds category with submitted id, creates new issue,
+	 * sets issue name & description, associates issue with specified category.
+	 * Returns feedback on success/failure.
+	 */
 	private Long generateIssue (Long categoryId, String issueName, String issueDescription) {
 		
 		IssueCategory category = issueCategoryRepo.findByCategoryId(categoryId);
@@ -220,6 +273,12 @@ public class IssueService implements IIssueService{
 		return issue.getIssueId();
 	}
 	
+	/*
+	 * Updates name & description of issue.
+	 * Retrieves issue from repository by id & updates name & description,
+	 * saves changes to repository,
+	 * returns feedback for namechange.
+	 */
 	public String updateIssue(Long id, String issueName, String issueDescription) {
 		
 		Issue issue = issueRepo.findByIssueId(id);
@@ -238,6 +297,12 @@ public class IssueService implements IIssueService{
 		return WebUtils.generateJSON(feedback);
 	}
 	
+	/*
+	 * Deletes issue by id.
+	 * Retrieves issue from repository by id,
+	 * deletes retrieved issue from repository,
+	 * returns feedback on success/failure.
+	 */
 	public String deleteIssue(Long id) {
 		
 		Issue issue = issueRepo.findByIssueId(id);
@@ -255,7 +320,13 @@ public class IssueService implements IIssueService{
 		feedback.setMsg("Successfully deleted");
 		return WebUtils.generateJSON(feedback);
 	}
-		
+	
+	/*
+	 * Creates new question with specified text.
+	 * Retrieves issue by specified id from repository,
+	 * creates new question & sets text & associates question with retrieved issue,
+	 * returns feedback on success/failure.
+	 */
 	private Long generateQuestion (Long issueId, String questionText) {
 		
 		Issue issue = issueRepo.findByIssueId(issueId);
@@ -278,6 +349,12 @@ public class IssueService implements IIssueService{
 		return question.getQuestionID();
 	}
 	
+	/*
+	 * Updates question text.
+	 * Retrieves question from repository by id & updates text,
+	 * saves changes to repository,
+	 * returns feedback on success/failure.
+	 */
 	public String updateQuestion(Long id, String questionChange) {
 		
 		Question question = questionRepo.findByQuestionId(id);		
@@ -295,6 +372,12 @@ public class IssueService implements IIssueService{
 		return WebUtils.generateJSON(feedback);
 	}
 	
+	/*
+	 * Deletes question by id.
+	 * Retrieves question from repository by id,
+	 * deletes retrieved question from repository,
+	 * returns feedback on success/failure.
+	 */
 	public String deleteQuestion(Long id) {
 		
 		Question question = questionRepo.findByQuestionId(id);
