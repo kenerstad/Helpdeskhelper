@@ -23,6 +23,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+/*
+ * Implementation of Spring UserDetailsService interface for use with Spring security.
+ * Uses Spring security for secure logins to Helpdeskhelper website.
+ */
 @Transactional
 @Service
 public class UserDetailsService_Impl implements UserDetailsService{
@@ -33,6 +37,10 @@ public class UserDetailsService_Impl implements UserDetailsService{
 	@Autowired
 	private RoleRepository roleRepo;
 	
+	/*
+	 * Finds user from username, creates a new userDetails instance with the found user credentials for use in
+	 * spring security.
+	 */
 	@Override
 	public UserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
 		
@@ -50,6 +58,9 @@ public class UserDetailsService_Impl implements UserDetailsService{
 		
 	}
 	
+	/*
+	 * Assigns authority to each of a user's assigned roles as defined in WebSecurityConfig class.
+	 */
 	 private List<GrantedAuthority> getGrantedAuthorities(Collection<RoleModel> roles) {
 		 
 	        List<GrantedAuthority> authorities = new ArrayList<>();	        

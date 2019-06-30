@@ -9,6 +9,11 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
+
+/*
+ * Class that Implements Spring email to construct & send email messages.
+ * Uses project MailContentService class to include custom content in message.
+ */
 @Service
 public class MailService implements IMailService{
 	
@@ -27,6 +32,9 @@ public class MailService implements IMailService{
 	@Value("${mail.to}")
 	private String to;
  
+	/*
+	 * Builds simple email with recipient, subject & plain text.
+	 */
     public void sendSimpleMessage(
     		String to, String subject, String text) {
        
@@ -42,6 +50,11 @@ public class MailService implements IMailService{
         
     }
     
+    /*
+     * Builds email message using MimeMessagePreparator, MimeMessageHelper to
+     * define from, to, subject and content. The content is built with help of
+     * MailContentService class object.
+     */
     public void sendMessageToSupport(Object body) {
     	
     	 MimeMessagePreparator message = mimeMessage -> {
