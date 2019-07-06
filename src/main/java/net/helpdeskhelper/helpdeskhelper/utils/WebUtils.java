@@ -27,7 +27,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
+/*
+ * Collection of utility functions for use in conjunction with frontend
+ * functionality.
+ */
 public class WebUtils {
 	
 	public static List<String> userInfoToList(User userParam) {
@@ -46,6 +49,10 @@ public class WebUtils {
 		return userInfo;
 	}
 	
+	/*
+	 * Accepts generic object & returns a generated JSON string from the object
+	 *  using Jackson objectmapper.
+	 */
 	public static String generateJSON(Object t) {
 			
 		ObjectMapper mapper = new ObjectMapper();
@@ -53,14 +60,16 @@ public class WebUtils {
 		try {
 			JSON = mapper.writeValueAsString(t);
 		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return JSON;
 	}
 	
-
+	/*
+	 * Accepts JSON string & uses Jackson objectmapper to read its value into a 
+	 * generic object & return it.
+	 */
 	public static <E> Object decodeJSON(String t) {
 		
 		ObjectMapper mapper = new ObjectMapper();

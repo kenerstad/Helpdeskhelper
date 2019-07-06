@@ -4,7 +4,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class EncryptPasswordUtil {
 
-	// Encrypts provided password with BCryptPasswordEncoder strong hashing function.
+	/*
+	 * Encrypts provided password with BCryptPasswordEncoder strong hashing function & returns it.
+	 */
 	public static String encryptPassword(String password) {
         BCryptPasswordEncoder pwEncoder = new BCryptPasswordEncoder();
         return pwEncoder.encode(password);

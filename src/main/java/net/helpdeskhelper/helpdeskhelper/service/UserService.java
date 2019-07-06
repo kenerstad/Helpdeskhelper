@@ -13,7 +13,9 @@ import net.helpdeskhelper.helpdeskhelper.persistence.model.RoleModel;
 import net.helpdeskhelper.helpdeskhelper.utils.EncryptPasswordUtil;
 
 
-
+/*
+ * Custom service for managing of users.
+ */
 @Service
 public class UserService implements IUserService{
 	
@@ -23,6 +25,12 @@ public class UserService implements IUserService{
 	@Autowired
 	RoleRepository roleRepo;
 	
+	/*
+	 * Register a new user from a user DTO generated from frontend user registration.
+	 * Uses custom utility class EncryptPasswordUtil to encrypt user defined password.
+	 * Sets used defined username, email, first/last name and which predefined roles 
+	 * the user should have. Saves the new user to user repository/DB.
+	 */
 	public void registerUser(UserFormDTO userForm) {
 				
 		UserModel user = new UserModel();
@@ -39,6 +47,9 @@ public class UserService implements IUserService{
 		
 	}
 	
+	/*
+	 * Generates and registers a default admin user for testing purposes.
+	 */
 	public String generateDefaultUser() {
 		
 		UserModel user = new UserModel();
@@ -60,6 +71,9 @@ public class UserService implements IUserService{
 		return "DEFAULT USER 'kris' CREATED SUCCESSFULLY";
 	}
 	
+	/*
+	 * Generates default roles.
+	 */
 	public String generateDefaultRoles() {
 		
 		RoleModel role = new RoleModel();
